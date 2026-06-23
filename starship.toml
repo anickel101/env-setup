@@ -1,0 +1,46 @@
+# Only allow directory, git branch, and node modules to render
+# We introduce a custom trailing arrow to cleanly close out whichever module is last
+format = """
+$directory\
+$git_branch\
+$nodejs\
+${custom.ending_arrow}\
+\n$character"""
+
+# Segment 1: Charcoal text on Soft Yellow background
+[directory]
+truncation_length = 2
+truncate_to_repo = false
+# If a path is 3+ levels deep, this safely prepends "../" dynamically
+# instead of breaking short paths.
+truncation_symbol = "../"
+style = "#2d3436 bg:#ffeaa7"
+# Cleaned format to let the real path render naturally with safe edge padding
+format = "[ $path ]($style)"
+
+# Segment 2: Charcoal text on Soft Coral background
+[git_branch]
+symbol = "on  "
+style = "#2d3436 bg:#ff7675"
+# Realigned internal spaces so symbols don't touch the text or arrows
+format = "[](fg:prev_bg bg:#ff7675)[ $symbol$branch ]($style)"
+
+# Segment 3: Charcoal text on Soft Purple background
+[nodejs]
+symbol = "via  "
+style = "#2d3436 bg:#a29bfe"
+format = "[](fg:prev_bg bg:#a29bfe)[ $symbol$version ]($style)"
+detect_files = ['package.json', '.node-version', 'nvmfile.json']
+
+# Self-Healing Closing Arrow:
+# This invisible worker checks whatever color block happened to render last
+# (Yellow, Coral, or Purple) and cleanly drops a solid arrow fading into transparency.
+[custom.ending_arrow]
+when = "true"
+style = "fg:prev_bg"
+format = "[]($style)"
+
+# Configure the prompt character on line 2
+[character]
+success_symbol = "[❯](bold green) "
+error_symbol = "[❯](bold red) "
