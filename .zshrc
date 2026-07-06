@@ -39,9 +39,26 @@ fi
 # Initialize Starship theme
 eval "$(starship init zsh)"
 
-# 5. ALIASES
+# 5. FUNCTIONS
+
+# Pushes the current branch, setting the upstream first if none exists.
+gpush() {
+  if git rev-parse --abbrev-ref --symbolic-full-name @{u} >/dev/null 2>&1; then
+    git push "$@"
+  else
+    git push --set-upstream origin "$(git branch --show-current)" "$@"
+  fi
+}
+
+# Creates a commit with the full message passed as one argument.
+gitcommit() {
+    git commit -m "$1"
+}
+
+# 6. ALIASES
 alias ip="ipconfig getifaddr en0"
 alias zshconfig="code ~/.zshrc"
+alias zshprofile="code ~/.zprofile"
 alias zshsource="source ~/.zshrc"
 alias ohmyzsh="cd ~/.oh-my-zsh"
 alias starshipconfig="code ~/.config/starship.toml"
@@ -50,6 +67,8 @@ alias gits="git status"
 alias gitd="git diff"
 alias gitl="git lg"
 alias gita="git add ."
+alias gitp='gpush'
+alias gitc='gitcommit'
 alias c="clear"
 alias ls="eza --long"
 alias lg="cd ~/Code/luna-group"
