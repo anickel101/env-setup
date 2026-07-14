@@ -52,7 +52,12 @@ gpush() {
 
 # Creates a commit with the full message passed as one argument.
 gitcommit() {
-    git commit -m "$*"
+  if [ $# -eq 0 ]; then
+    echo "Usage: gitc <commit message>"
+    return 1
+  fi
+
+  git commit -m "$*"
 }
 
 # 6. ALIASES
@@ -66,7 +71,7 @@ alias gitconfig="vim ~/.gitconfig"
 alias gits="git status"
 alias gitd="git diff"
 alias gitl="git lg"
-alias gita="git add ."
+alias gita="git add -A"
 alias gitp='gpush'
 alias gitc='gitcommit'
 alias c="clear"
@@ -77,6 +82,5 @@ alias lw="cd ~/Code/luna-group/luna-web"
 # Fallback to standard ls if eza isn't installed
 if (( $+commands[eza] )); then
   alias ls="eza --long"
-else
-  alias ls="ls -G"
 fi
+
