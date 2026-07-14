@@ -52,7 +52,7 @@ gpush() {
 
 # Creates a commit with the full message passed as one argument.
 gitcommit() {
-    git commit -m "$1"
+    git commit -m "$*"
 }
 
 # 6. ALIASES
