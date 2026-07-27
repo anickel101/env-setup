@@ -1,3 +1,9 @@
+# Ensure non-login interactive shells also load login/profile exports.
+# Login shells already source ~/.zprofile automatically, so guard this to avoid duplicates.
+if [[ ! -o login && -f "$HOME/.zprofile" ]]; then
+  source "$HOME/.zprofile"
+fi
+
 # 1. PATH AND HOMEBREW COMPLETIONS SETUP
 # Cache the Homebrew prefix to avoid calling $(brew --prefix) multiple times
 if (( $+commands[brew] )); then
@@ -39,6 +45,9 @@ fi
 # Initialize Starship theme
 eval "$(starship init zsh)"
 
+# Initialize zoxide (smart cd)
+eval "$(zoxide init zsh)"
+
 # 5. FUNCTIONS
 
 # Pushes the current branch, setting the upstream first if none exists.
@@ -61,6 +70,8 @@ gitcommit() {
 }
 
 # 6. ALIASES
+alias cd="z"
+alias cdi="zi"
 alias ip="ipconfig getifaddr en0"
 alias zshconfig="code ~/.zshrc"
 alias zshprofile="code ~/.zprofile"
@@ -83,4 +94,3 @@ alias lw="cd ~/Code/luna-group/luna-web"
 if (( $+commands[eza] )); then
   alias ls="eza --long"
 fi
-
