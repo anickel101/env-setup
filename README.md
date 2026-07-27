@@ -175,3 +175,7 @@ Then apply prompt changes by reloading your shell:
 ```bash
 source ~/.zshrc
 ```
+
+### Nerd Font
+
+In order for the custom prompt line to render correctly, install a [nerd font](https://www.nerdfonts.com/font-downloads) and be sure to point to it in your iTerm profile text settings. I went with "Hack Nerd Font"
